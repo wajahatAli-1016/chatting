@@ -474,137 +474,143 @@ export default function Dashboard() {
                     isMobileView 
                         ? (showMobileChat ? 'w-full' : 'hidden') 
                         : 'flex-1'
-                } flex flex-col min-w-0 overflow-hidden`}>
+                } flex flex-col min-w-0 h-full relative`}>
                     {selectedChat ? (
                         <>
-                            {/* Chat Header */}
-                            <div className="p-3 sm:p-4" style={{ background: 'var(--header-bg)', color: 'var(--header-text)' }}>
-                                <div className="flex items-center min-w-0">
-                                    {/* Mobile Back Button */}
-                                    {isMobileView && (
-                                        <button 
-                                            onClick={handleMobileBack}
-                                            className="mr-2 sm:mr-3 p-1 hover:bg-white/20 rounded flex-shrink-0"
-                                        >
-                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                                            </svg>
-                                        </button>
-                                    )}
-                                    <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
-                                        <span className="font-bold text-lg">
-                                            {getOtherParticipantFromSelected()?.username?.charAt(0).toUpperCase()}
-                                        </span>
-                                    </div>
-                                    <div className="min-w-0 flex-1">
-                                        <h1 className="text-lg font-semibold truncate">{getOtherParticipantFromSelected()?.username}</h1>
-                                        <p className="text-sm opacity-80">Online</p>
+                            {/* Chat Header - Fixed */}
+                            <div className="absolute top-0 left-0 right-0 z-50" style={{ background: 'var(--header-bg)', color: 'var(--header-text)' }}>
+                                <div className="p-3 sm:p-4">
+                                    <div className="flex items-center min-w-0">
+                                        {/* Mobile Back Button */}
+                                        {isMobileView && (
+                                            <button 
+                                                onClick={handleMobileBack}
+                                                className="mr-2 sm:mr-3 p-1 hover:bg-white/20 rounded flex-shrink-0"
+                                            >
+                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                                                </svg>
+                                            </button>
+                                        )}
+                                        <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center mr-3 flex-shrink-0">
+                                            <span className="font-bold text-lg">
+                                                {getOtherParticipantFromSelected()?.username?.charAt(0).toUpperCase()}
+                                            </span>
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <h1 className="text-lg font-semibold truncate">{getOtherParticipantFromSelected()?.username}</h1>
+                                            <p className="text-sm opacity-80">Online</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-                            {/* Messages */}
-                            <div className="flex-1 overflow-y-auto p-2 sm:p-4" style={{ background: 'var(--chat-bg)' }}>
-                                {selectedChat.messages.length === 0 ? (
-                                    <div className="flex flex-col items-center justify-center h-full text-gray-500">
-                                        <svg className="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                        </svg>
-                                        <p className="text-lg font-medium">No messages yet</p>
-                                        <p className="text-sm">Start the conversation!</p>
-                                    </div>
-                                ) : (
-                                    <div className="space-y-4">
-                                        {selectedChat.messages && selectedChat.messages.length > 0 ? (
-                                            selectedChat.messages.map((msg, index) => {
-                                                // Safe check for sender data
-                                                const senderId = msg.sender?._id || msg.sender;
-                                                const isOwnMessage = senderId === user?.id;
-                                                
-                                                return (
-                                                    <div
-                                                        key={msg._id || index}
-                                                        className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
-                                                    >
+                            {/* Messages Area - Scrollable with padding for header and input */}
+                            <div className="flex-1 overflow-y-auto pt-[88px] pb-[140px]" style={{ background: 'var(--chat-bg)' }}>
+                                <div className="p-2 sm:p-4">
+                                    {selectedChat.messages.length === 0 ? (
+                                        <div className="flex flex-col items-center justify-center h-full text-gray-500">
+                                            <svg className="w-16 h-16 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                                            </svg>
+                                            <p className="text-lg font-medium">No messages yet</p>
+                                            <p className="text-sm">Start the conversation!</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-4">
+                                            {selectedChat.messages && selectedChat.messages.length > 0 ? (
+                                                selectedChat.messages.map((msg, index) => {
+                                                    const senderId = msg.sender?._id || msg.sender;
+                                                    const isOwnMessage = senderId === user?.id;
+                                                    
+                                                    return (
                                                         <div
-                                                            className="max-w-xs sm:max-w-sm lg:max-w-md px-3 py-2 rounded-lg break-words"
-                                                            style={{
-                                                                background: isOwnMessage ? 'var(--own-message-bg)' : 'var(--message-bg)',
-                                                                color: isOwnMessage ? 'var(--own-message-text)' : 'var(--message-text)'
-                                                            }}
+                                                            key={msg._id || index}
+                                                            className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'}`}
                                                         >
-                                                            <p className="text-sm">{msg.content}</p>
-                                                            <p className={`text-xs mt-1 ${
-                                                                isOwnMessage ? 'text-white/70' : 'text-gray-500'
-                                                            }`}>
-                                                                {formatTimestamp(msg.timestamp)}
-                                                            </p>
+                                                            <div
+                                                                className="max-w-xs sm:max-w-sm lg:max-w-md px-3 py-2 rounded-lg break-words"
+                                                                style={{
+                                                                    background: isOwnMessage ? 'var(--own-message-bg)' : 'var(--message-bg)',
+                                                                    color: isOwnMessage ? 'var(--own-message-text)' : 'var(--message-text)'
+                                                                }}
+                                                            >
+                                                                <p className="text-sm">{msg.content}</p>
+                                                                <p className={`text-xs mt-1 ${
+                                                                    isOwnMessage ? 'text-white/70' : 'text-gray-500'
+                                                                }`}>
+                                                                    {formatTimestamp(msg.timestamp)}
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                );
-                                            })
-                                        ) : null}
-                                        <div ref={messagesEndRef} />
+                                                    );
+                                                })
+                                            ) : null}
+                                            <div ref={messagesEndRef} />
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Bottom Section - Fixed */}
+                            <div className="absolute bottom-0 left-0 right-0 z-50" style={{ background: 'var(--message-bg)' }}>
+                                {/* Emoji Picker */}
+                                {showEmojiPicker && (
+                                    <div 
+                                        ref={emojiPickerRef}
+                                        className="border-t p-2 sm:p-4 max-h-48 overflow-y-auto overflow-x-hidden"
+                                        style={{ borderColor: 'var(--border-color)' }}
+                                    >
+                                        <div className="grid grid-cols-6 sm:grid-cols-8 gap-1 sm:gap-2">
+                                            {emojis.map((emoji, index) => (
+                                                <button
+                                                    key={index}
+                                                    onClick={() => addEmoji(emoji)}
+                                                    className="w-8 h-8 text-lg hover:bg-gray-100 rounded transition-colors flex items-center justify-center"
+                                                >
+                                                    {emoji}
+                                                </button>
+                                            ))}
+                                        </div>
                                     </div>
                                 )}
-                            </div>
 
-                            {/* Emoji Picker */}
-                            {showEmojiPicker && (
-                                <div 
-                                    ref={emojiPickerRef}
-                                    className="border-t p-2 sm:p-4 max-h-48 overflow-y-auto overflow-x-hidden"
-                                    style={{ background: 'var(--message-bg)', borderColor: 'var(--border-color)' }}
-                                >
-                                    <div className="grid grid-cols-6 sm:grid-cols-8 gap-1 sm:gap-2">
-                                        {emojis.map((emoji, index) => (
-                                            <button
-                                                key={index}
-                                                onClick={() => addEmoji(emoji)}
-                                                className="w-8 h-8 text-lg hover:bg-gray-100 rounded transition-colors flex items-center justify-center"
-                                            >
-                                                {emoji}
-                                            </button>
-                                        ))}
-                                    </div>
+                                {/* Message Input */}
+                                <div className="border-t p-2 sm:p-4" style={{ borderColor: 'var(--border-color)' }}>
+                                    <form onSubmit={sendMessage} className="flex space-x-2">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+                                            className="p-2 text-gray-500 hover:text-[#00A884] hover:bg-gray-100 rounded-full transition-colors"
+                                        >
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                            </svg>
+                                        </button>
+                                        <input
+                                            type="text"
+                                            value={message}
+                                            onChange={(e) => setMessage(e.target.value)}
+                                            placeholder="Type a message..."
+                                            className="flex-1 px-3 sm:px-4 py-2 rounded-full focus:outline-none focus:ring-2 min-w-0"
+                                            style={{
+                                                background: 'var(--message-bg)',
+                                                color: 'var(--message-text)',
+                                                border: '1px solid var(--border-color)',
+                                                '--tw-ring-color': 'var(--header-bg)'
+                                            }}
+                                        />
+                                        <button
+                                            type="submit"
+                                            disabled={!message.trim()}
+                                            className="bg-[#00A884] hover:bg-[#008f72] disabled:bg-gray-300 text-white p-2 rounded-full transition-colors"
+                                        >
+                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                            </svg>
+                                        </button>
+                                    </form>
                                 </div>
-                            )}
-
-                            {/* Message Input */}
-                            <div className="border-t p-2 sm:p-4" style={{ background: 'var(--message-bg)', borderColor: 'var(--border-color)' }}>
-                                <form onSubmit={sendMessage} className="flex space-x-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-                                        className="p-2 text-gray-500 hover:text-[#00A884] hover:bg-gray-100 rounded-full transition-colors"
-                                    >
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </button>
-                                    <input
-                                        type="text"
-                                        value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
-                                        placeholder="Type a message..."
-                                        className="flex-1 px-3 sm:px-4 py-2 rounded-full focus:outline-none focus:ring-2 min-w-0"
-                                        style={{
-                                            background: 'var(--message-bg)',
-                                            color: 'var(--message-text)',
-                                            border: '1px solid var(--border-color)',
-                                            '--tw-ring-color': 'var(--header-bg)'
-                                        }}
-                                    />
-                                    <button
-                                        type="submit"
-                                        disabled={!message.trim()}
-                                        className="bg-[#00A884] hover:bg-[#008f72] disabled:bg-gray-300 text-white p-2 rounded-full transition-colors"
-                                    >
-                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-                                        </svg>
-                                    </button>
-                                </form>
                             </div>
                         </>
                     ) : (
