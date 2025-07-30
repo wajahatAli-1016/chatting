@@ -4,9 +4,11 @@ import Message from "@/models/Message";
 import { NextResponse } from "next/server";
 
 // GET - Fetch a specific chat with all messages
-export async function GET(request, { params }) {
+export async function GET(req, context) {
     try {
-        if (!params?.chatId) {
+        const { chatId } = await context.params;
+        
+        if (!chatId) {
             return NextResponse.json(
                 { message: "Chat ID is required" },
                 { status: 400 }
@@ -14,16 +16,6 @@ export async function GET(request, { params }) {
         }
 
         await connectDB();
-        
-        const chatId = params.chatId;
-
-        // Validate chatId format
-        if (!chatId.match(/^[0-9a-fA-F]{24}$/)) {
-            return NextResponse.json(
-                { message: "Invalid chat ID format" },
-                { status: 400 }
-            );
-        }
 
         const chat = await Chat.findById(chatId)
             .populate('participants', 'username mobile')
@@ -34,9 +26,7 @@ export async function GET(request, { params }) {
                     select: 'username mobile'
                 },
                 options: { sort: { timestamp: 1 } }
-            })
-            .lean() // Convert to plain JavaScript object
-            .exec(); // Execute the query
+            });
 
         if (!chat) {
             return NextResponse.json(
@@ -49,10 +39,7 @@ export async function GET(request, { params }) {
     } catch (error) {
         console.error("Error fetching chat:", error);
         return NextResponse.json(
-            { 
-                message: "Failed to fetch chat", 
-                error: process.env.NODE_ENV === 'development' ? error.message : 'Internal server error'
-            },
+            { message: "Failed to fetch chat", error: error.message },
             { status: 500 }
         );
     }
