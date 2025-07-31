@@ -578,7 +578,13 @@ export default function Dashboard() {
                             </div>
 
                             {/* Bottom Section - Fixed */}
-                            <div className="flex-shrink-0 z-50" style={{ background: 'var(--message-bg)' }}>
+                            <div 
+                                className="flex-shrink-0 z-50" 
+                                style={{ 
+                                    background: 'var(--message-bg)',
+                                    paddingBottom: isMobileView ? 'env(safe-area-inset-bottom, 0px)' : '0px'
+                                }}
+                            >
                                 {/* Emoji Picker */}
                                 {showEmojiPicker && (
                                     <div 
