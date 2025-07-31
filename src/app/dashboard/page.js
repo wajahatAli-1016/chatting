@@ -182,6 +182,31 @@ export default function Dashboard() {
         };
     }, []);
 
+    // Prevent body scrolling on mobile when chat is open
+    useEffect(() => {
+        if (isMobileView && showMobileChat) {
+            // Prevent body scrolling
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+            document.body.style.height = '100%';
+        } else {
+            // Restore body scrolling
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            document.body.style.height = '';
+        }
+
+        return () => {
+            // Cleanup: restore body scrolling when component unmounts
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.width = '';
+            document.body.style.height = '';
+        };
+    }, [isMobileView, showMobileChat]);
+
     // Initial data fetch
     useEffect(() => {
         if (user?.id) {
@@ -286,7 +311,7 @@ export default function Dashboard() {
 
     return (
         <ProtectedRoute>
-            <div className="h-screen flex overflow-hidden" style={{ background: 'var(--chat-bg)' }}>
+            <div className="h-screen flex overflow-hidden fixed inset-0" style={{ background: 'var(--chat-bg)' }}>
                 {/* Sidebar - Hidden on mobile when chat is open */}
                 <div className={`${
                     isMobileView 
