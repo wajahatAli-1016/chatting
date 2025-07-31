@@ -582,7 +582,7 @@ export default function Dashboard() {
                                 className="flex-shrink-0 z-50" 
                                 style={{ 
                                     background: 'var(--message-bg)',
-                                    paddingBottom: isMobileView ? 'env(safe-area-inset-bottom, 0px)' : '0px'
+                                    paddingBottom: isMobileView ? '20px' : '0px'
                                 }}
                             >
                                 {/* Emoji Picker */}
@@ -607,7 +607,13 @@ export default function Dashboard() {
                                 )}
 
                                 {/* Message Input */}
-                                <div className="border-t p-2 sm:p-4" style={{ borderColor: 'var(--border-color)' }}>
+                                <div 
+                                    className="border-t p-2 sm:p-4" 
+                                    style={{ 
+                                        borderColor: 'var(--border-color)',
+                                        marginBottom: isMobileView ? '10px' : '0px'
+                                    }}
+                                >
                                     <form onSubmit={sendMessage} className="flex space-x-2">
                                         <button
                                             type="button"
