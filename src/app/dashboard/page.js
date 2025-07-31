@@ -582,7 +582,7 @@ export default function Dashboard() {
                                 className="flex-shrink-0 z-50" 
                                 style={{ 
                                     background: 'var(--message-bg)',
-                                    paddingBottom: isMobileView ? '40px' : '0px'
+                                    paddingBottom: isMobileView ? '45px' : '0px'
                                 }}
                             >
                                 {/* Emoji Picker */}
