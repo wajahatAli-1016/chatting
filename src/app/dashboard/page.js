@@ -190,23 +190,6 @@ export default function Dashboard() {
             document.body.style.position = 'fixed';
             document.body.style.width = '100%';
             document.body.style.height = '100%';
-            
-            // Set viewport height to prevent layout shifts
-            const setViewportHeight = () => {
-                const vh = window.innerHeight * 0.01;
-                document.documentElement.style.setProperty('--vh', `${vh}px`);
-            };
-            
-            setViewportHeight();
-            window.addEventListener('resize', setViewportHeight);
-            
-            return () => {
-                window.removeEventListener('resize', setViewportHeight);
-                document.body.style.overflow = '';
-                document.body.style.position = '';
-                document.body.style.width = '';
-                document.body.style.height = '';
-            };
         } else {
             // Restore body scrolling
             document.body.style.overflow = '';
@@ -328,13 +311,7 @@ export default function Dashboard() {
 
     return (
         <ProtectedRoute>
-            <div 
-                className="flex overflow-hidden fixed inset-0" 
-                style={{ 
-                    background: 'var(--chat-bg)',
-                    height: isMobileView && showMobileChat ? 'calc(var(--vh, 1vh) * 100)' : '100vh'
-                }}
-            >
+            <div className="h-screen flex overflow-hidden fixed inset-0" style={{ background: 'var(--chat-bg)' }}>
                 {/* Sidebar - Hidden on mobile when chat is open */}
                 <div className={`${
                     isMobileView 
