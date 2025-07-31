@@ -582,7 +582,7 @@ export default function Dashboard() {
                                 className="flex-shrink-0 z-50" 
                                 style={{ 
                                     background: 'var(--message-bg)',
-                                    paddingBottom: isMobileView ? '20px' : '0px'
+                                    paddingBottom: isMobileView ? '40px' : '0px'
                                 }}
                             >
                                 {/* Emoji Picker */}
@@ -640,10 +640,10 @@ export default function Dashboard() {
                                         <button
                                             type="submit"
                                             disabled={!message.trim()}
-                                            className="bg-[#00A884] hover:bg-[#008f72] disabled:bg-gray-300 text-white p-2 rounded-full transition-colors"
+                                            className="bg-[#00A884] hover:bg-[#008f72] disabled:bg-gray-300 text-white p-2 rounded-full transition-colors flex-shrink-0 w-10 h-10 flex items-center justify-center"
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
                                             </svg>
                                         </button>
                                     </form>
