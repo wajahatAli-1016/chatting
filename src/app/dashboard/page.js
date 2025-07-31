@@ -474,11 +474,11 @@ export default function Dashboard() {
                     isMobileView 
                         ? (showMobileChat ? 'w-full' : 'hidden') 
                         : 'flex-1'
-                } flex flex-col min-w-0 h-full relative`}>
+                } flex flex-col min-w-0 h-full overflow-hidden`}>
                     {selectedChat ? (
                         <>
                             {/* Chat Header - Fixed */}
-                            <div className="absolute top-0 left-0 right-0 z-50" style={{ background: 'var(--header-bg)', color: 'var(--header-text)', position: 'sticky' }}>
+                            <div className="flex-shrink-0 z-50" style={{ background: 'var(--header-bg)', color: 'var(--header-text)' }}>
                                 <div className="p-3 sm:p-4">
                                     <div className="flex items-center min-w-0">
                                         {/* Mobile Back Button */}
@@ -505,8 +505,8 @@ export default function Dashboard() {
                                 </div>
                             </div>
 
-                            {/* Messages Area - Scrollable with padding for header and input */}
-                            <div className="flex-1 overflow-y-auto pt-[88px] pb-[140px]" style={{ background: 'var(--chat-bg)' }}>
+                            {/* Messages Area - Scrollable */}
+                            <div className="flex-1 overflow-y-auto overflow-x-hidden" style={{ background: 'var(--chat-bg)' }}>
                                 <div className="p-2 sm:p-4">
                                     {selectedChat.messages.length === 0 ? (
                                         <div className="flex flex-col items-center justify-center h-full text-gray-500">
@@ -521,7 +521,7 @@ export default function Dashboard() {
                                             {selectedChat.messages && selectedChat.messages.length > 0 ? (
                                                 selectedChat.messages.map((msg, index) => {
                                                     const senderId = msg.sender?._id || msg.sender;
-                                                    const isOwnMessage = senderId === user?.id;
+                                                    const isOwnMessage = senderId === user?.id || senderId === user?._id;
                                                     
                                                     return (
                                                         <div
@@ -553,7 +553,7 @@ export default function Dashboard() {
                             </div>
 
                             {/* Bottom Section - Fixed */}
-                            <div className="absolute bottom-0 left-0 right-0 z-50" style={{ background: 'var(--message-bg)' }}>
+                            <div className="flex-shrink-0 z-50" style={{ background: 'var(--message-bg)' }}>
                                 {/* Emoji Picker */}
                                 {showEmojiPicker && (
                                     <div 
