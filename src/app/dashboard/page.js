@@ -478,7 +478,7 @@ export default function Dashboard() {
                     {selectedChat ? (
                         <>
                             {/* Chat Header - Fixed */}
-                            <div className="absolute top-0 left-0 right-0 z-50" style={{ background: 'var(--header-bg)', color: 'var(--header-text)' }}>
+                            <div className="absolute top-0 left-0 right-0 z-50" style={{ background: 'var(--header-bg)', color: 'var(--header-text)', position: 'sticky' }}>
                                 <div className="p-3 sm:p-4">
                                     <div className="flex items-center min-w-0">
                                         {/* Mobile Back Button */}
