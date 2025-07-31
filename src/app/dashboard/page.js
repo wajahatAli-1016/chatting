@@ -531,7 +531,8 @@ export default function Dashboard() {
                             </div>
 
                             {/* Messages Area - Scrollable */}
-                            <div className="flex-1 overflow-y-auto overflow-x-hidden" style={{ background: 'var(--chat-bg)' }}>
+                                                        <div className="flex-1 overflow-y-auto overflow-x-hidden" style={{ background: 'var(--chat-bg)', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+
                                 <div className="p-2 sm:p-4">
                                     {selectedChat.messages.length === 0 ? (
                                         <div className="flex flex-col items-center justify-center h-full text-gray-500">
